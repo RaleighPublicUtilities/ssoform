@@ -1,0 +1,7 @@
+body {
+    padding-top: 3em;
+    margin: 0;
+}
+html, body, #map {
+    height: 100%;
+}
