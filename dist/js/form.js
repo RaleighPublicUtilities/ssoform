@@ -36,7 +36,10 @@ function getAddress(){
   DataObj: function(){ for (each in init.post.attributes){
     init.post.attributes[each] = $(init.post.attributes[each]).val();
     } 
-        
+    var htmlLatLng = $('#coords').text()
+    var latlngarray = htmlLatLng.split(',')
+    init.post.geometry['x'] = latlngarray[0]
+    init.post.geometry['y'] = latlngarray[1]    
         
   },
   reproject: function(x,y){
@@ -153,7 +156,7 @@ function getAddress(){
 
         //Adds the submit button
         $("#updater2", init.formframe).append('<button id="update" type="submit" class="btn btn-primary btn-lg" onclick="init.submitForm();">Submit</button>')
-        
+        $("#updater", init.formframe).append('<p id="coords"></p>')
          var str = init.formframe.prop('innerHTML');
           
           init.innerpopup = str;
@@ -166,7 +169,7 @@ function getAddress(){
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 submitForm: function(){
 
-  init.reproject(init.post.geometry.x, init.post.geometry.y);
+  
   
       $("#updater").validate();
       $("#updater1").validate();
@@ -184,6 +187,7 @@ submitForm: function(){
   init.indata[0].attributes.HRS = parseInt(init.indata[0].attributes.HRS)
   init.indata[0].attributes.GAL2CREEK = parseInt(init.indata[0].attributes.GAL2CREEK)
 
+  init.reproject(init.post.geometry.x, init.post.geometry.y);
   setTimeout(function(){$(function(){
 
   
@@ -237,31 +241,9 @@ submitForm: function(){
     }); //End of Delete
       }
 
-      // else {
-      //   bootbox.alert('<h1 class="text-danger">FAILURE</h1><h3>The Record <strong class="text-danger">WAS NOT ADDED!!!</strong></h3><h4 class="text-warning">Code: '+ response.addResults[0].error.code+', ' + response.addResults[0].error.description + '</h4><p>Please check to make sure all fields are filled out correctly</p><p class="text-muted">If the problem persists please call 919-996-2369</p>');
-      //   $("#updater").remove();
-      //   $("#updater1").remove();
-      //   $("#updater2").remove();
-      //   $("#frame").append('<a id="try" class="btn btn-warning btn-lg" onclick="location.reload(true);" href="../devApp/Update.html">Try Again</a>')
-      // }
-      // $('form').each(function(){
-      //   this.reset();
-      // });
-    //   if ($("#delete").length > 0){
-    //     return
-    //   }
-    //   else{
-        
-
-    // }
+     
     },
-    // error : function (error){
-    //   bootbox.alert('<h1 class="text-danger">FAILURE</h1><h3>The Record <strong class="text-danger">WAS NOT ADDED!!!</strong></h3><h4 class="text-warning">Code: '+ error.error.code +', ' + error.error.details[0] + '</h4><p>Please check to make sure all fields are filled out correctly</p><p class="text-muted">If the problem persists please call 919-996-2369</p>');
-    //     $("#updater").remove();
-    //     $("#updater1").remove();
-    //     $("#updater2").remove();
-    //     $("#frame").append('<a id="try" class="btn btn-warning btn-lg" href="../devApp/Update.html">Try Again</a>')
-    //   }
+    
       
 
     
