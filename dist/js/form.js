@@ -100,7 +100,7 @@ function getAddress(){
               if (field == "CAUSE_RATING"){
                 $(column, init.formframe).append(formControls.CAUSE_RATING)
               }
-              else if (fieldType == "esriFieldTypeSmallInteger" && field != 'HRS' && field != 'DAYS'){
+              else if (fieldType == "esriFieldTypeSmallInteger" && field != 'HRS' && field != 'DAYS' && field != 'YEAR_'){
                 $(column, init.formframe).append(formControls.esriFieldTypeSmallInteger)
               }
               else if (field == "FACILITYID"){
@@ -144,10 +144,10 @@ function getAddress(){
             }
 
          
-            if (init.start < 12){
+            if (init.start < 11){
                 layout("#updater")
             }
-            else if (init.start > 11 && init.start < 20)  {
+            else if (init.start > 10 && init.start < 19)  {
               layout("#updater1")
             }
             else {
