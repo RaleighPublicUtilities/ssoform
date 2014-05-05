@@ -32,7 +32,7 @@ function getAddress(){
   post:{"geometry": {},"attributes" :{}},
   fieldlengths: {},
   indata: [],
-  formframe: $('<div id="popup"><div id="frame" class="btn-group"></div><div class="container-fluid"><div class="row"><div class="col-md-4"><form id="updater" class="cmxform" role="form" method="post" action=""></div><div class="col-md-4"><div id="updater1"></div></div><div class="col-md-4"><div id="updater2"></div></div></form></div></div></div>'),
+  formframe: $('<div id="popup"><div id="frame" class="btn-group"></div><div class="container-fluid"><h3 id="Ftext" class="text-primary">Add New Record</h3><br><div class="row"><div class="col-md-4"><form id="updater" class="cmxform" role="form" method="post" action=""></div><div class="col-md-4"><div id="updater1"></div></div><div class="col-md-4"><div id="updater2"></div></div></form></div></div></div>'),
   DataObj: function(){ for (each in init.post.attributes){
     init.post.attributes[each] = $(init.post.attributes[each]).val();
     } 
@@ -79,13 +79,14 @@ function getAddress(){
               "esriFieldTypeString" : '<div id="'+field+'div" class="form-group"><label for="' + field +'">'+alias+'</label><input id="'+ field +'" type="text" maxlength="'+ fieldlen +'" class="form-control" placeholder=""></div>',
               "esriFieldTypeSmallInteger": '<div id="'+field+'div" class="form-group"><label for="' + field +'">'+alias+'</label><input id="'+ field +'" type="number" maxlength="'+ fieldlen +'" class="form-control" placeholder=""></div>',
               "esriFieldTypeDouble": '<div id="'+field+ 'div" class="form-group"><label for="'+ field +'">'+ alias +'</label><input type="number" id="' + field + '" maxlength="'+ fieldlen +'" class="form-control" placeholder="..."></div>',
-              "esriFieldTypeDate": '<div id="'+field+'div" class="form-group"><label for="'+ field + '">'+ alias +'<br>Required</label><input type="datetime" class="form-control" id="'+ field +'" value="' + getCurrentDate() + '"></div>',
+              "esriFieldTypeDate": '<div id="'+field+'div" class="form-group"><label for="'+ field + '">'+ alias +'<i class="text-danger"> (Required)</i></label><input type="datetime" class="form-control" id="'+ field +'" value="' + getCurrentDate() + '"></div>',
               "NOTES": '<div id="'+field+'div" class="form-group"><label for="'+ field + '">'+ alias +'</label><textarea class="form-control" rows="3"></textarea></div>',
               "ADDRESS": '<div id="'+field+'div" class="form-group"><label for="' + field +'">'+alias+'</label><input id="'+ field +'" type="text" maxlength="'+ fieldlen +'" class="form-control" placeholder="'+getAddress()+'"></div>',
               "esriFieldTypeInteger": '<div id="'+field+'div" class="form-group"><label for="' + field +'">'+alias+'</label><input id="'+ field +'" type="number" class="form-control" placeholder=""></div>',
               "FISH_KILL": '<div id="'+field+'div" class="form-group"><label for="' + field +'">'+alias+'</label><br><select id="'+ field +'" ><option value="NO">NO</option><option value="YES">YES</option></select></div>',
               "CAUSE": '<div id="'+field+'div" class="form-group"><label for="' + field +'">'+alias+'</label><br><select id="'+ field +'" ></select></div>',
-              "TIME": '<div id="'+field+'div" class="form-group"><label for="'+ field + '">'+ alias +'<br>Required</label><input type="time" class="form-control" id="'+ field +'" value=""></div>',
+              "TIME": '<div id="'+field+'div" class="form-group"><label for="'+ field + '">'+ alias +'<i class="text-danger"> (Required)</i></label><input type="time" class="form-control" id="'+ field +'" value="" placeholder="12:00 AM"></div>',
+              "CAUSE_RATING": '<div id="'+field+'div" class="form-group"><label for="' + field +'">'+alias+'</label><br><select id="'+ field +'" ><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div>',
             }
             
 
@@ -96,7 +97,10 @@ function getAddress(){
             }
           
             function layout(column){
-              if (fieldType == "esriFieldTypeSmallInteger"){
+              if (field == "CAUSE_RATING"){
+                $(column, init.formframe).append(formControls.CAUSE_RATING)
+              }
+              else if (fieldType == "esriFieldTypeSmallInteger" && field != 'HRS' && field != 'DAYS'){
                 $(column, init.formframe).append(formControls.esriFieldTypeSmallInteger)
               }
               else if (field == "FACILITYID"){
@@ -186,6 +190,7 @@ submitForm: function(){
   init.indata[0].attributes.PIPE_DIAM = parseInt(init.indata[0].attributes.PIPE_DIAM)
   init.indata[0].attributes.HRS = parseInt(init.indata[0].attributes.HRS)
   init.indata[0].attributes.GAL2CREEK = parseInt(init.indata[0].attributes.GAL2CREEK)
+  init.indata[0].attributes.CAUSE_RATING = parseInt(init.indata[0].attributes.CAUSE_RATING)
 
   init.reproject(init.post.geometry.x, init.post.geometry.y);
   setTimeout(function(){$(function(){
@@ -206,6 +211,7 @@ submitForm: function(){
         $("#updater").remove();
         $("#updater1").remove();
         $("#updater2").remove();
+        $("#Ftext").remove();
         $("#frame").append('<a id="try" class="btn btn-warning btn-lg" onclick="location.reload(true);">Try Again</a>')
 
      } 
@@ -216,9 +222,12 @@ submitForm: function(){
       $("#updater").remove();
       $("#updater1").remove();
       $("#updater2").remove();
-        $("#frame").append('<a id="new" class="btn btn-success btn-lg" href="../ssoform/index.html">Add New Record</a>')
-        $("#frame").append('<button id="delete" type="button" class="btn btn-danger btn-lg">Delete Last Record</button>')
-        $("#delete").click(function(){
+      $("#Ftext").remove();
+      popupOptions.minWidth = 800;
+      $("#frame").append('<a id="new" class="btn btn-success btn-lg" href="../ssoform/index.html">Add New Record</a>')
+      $("#frame").append('<button id="delete" type="button" class="btn btn-danger btn-lg">Delete Last Record</button>')
+
+  $("#delete").click(function(){
    $.ajax({
     url: init.deleteurl,
     type: 'POST',
@@ -238,6 +247,9 @@ submitForm: function(){
     }
         
       }); //End of Post Delete
+   //Reload Page
+   setTimeout(function(){location.reload(true)}, 3000);
+    
     }); //End of Delete
       }
 

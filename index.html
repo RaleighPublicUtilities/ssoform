@@ -88,7 +88,7 @@
 
 
     function popup (feature, layer) {
-    layer.bindPopup("<h4>Sanitary System Overflow</h4>" + "<h5>Address: <small>" + feature.properties.ADDRESS + "</small></h5><h5>Duration: <small>" + feature.properties.DURATION +  "</small></h5><h5>Fish Kill: <small>" + feature.properties.FISH_KILL + "</small></h5><h5>Estimated Gallons: <small>" + feature.properties.EST_GALLON + "</small></h4><h4>Cause: <small>" + feature.properties.CAUSE_SPIL + "</small></h5><h5>Tributary: <small>" + feature.properties.TRIBUTARY  + "</small></h5>" )
+    layer.bindPopup("<h4>Sanitary System Overflow</h4>" + "<h5>Date: <small>" + feature.properties.SSO_DATE + "</small><h5>Address: <small>" + feature.properties.ADDRESS + "</small></h5><h5>Duration: <small>" + feature.properties.DURATION +  "</small></h5><h5>Fish Kill: <small>" + feature.properties.FISH_KILL + "</small></h5><h5>Estimated Gallons: <small>" + feature.properties.EST_GALLON + "</small></h5><h5>Primary Cause: <small>" + feature.properties.PRIMARY_CAUSE + "</small></h5><h5>Secondary Cause: <small>" + feature.properties.SECONDARY_CAUSE + "</small><h5>Rating: <small>" + feature.properties.CAUSE_RATING + "</small><h5>Tributary: <small>" + feature.properties.TRIBUTARY  + "</small></h5><h5>Basin: <small>" + feature.properties.BASIN + "</small>" )
   }
 
   function markerToLayer (feature, latlng){
@@ -101,7 +101,7 @@
   });
 }
 
-var popupOptions = { minWidth: 800, maxWidth: 3000,  keepInView: true}
+var popupOptions = { minWidth: 800, maxWidth: 3000, maxHeight: 400,  keepInView: true}
 
 
 function findMidpoint (A, B){
@@ -122,10 +122,12 @@ map.on('dblclick', function(e){
     weight: 1,
     fillOpacity: 1
   }).addTo(map);
-var str = init.formframe.prop('innerHTML');
+  var x = e.latlng.lng;
+  var y = e.latlng.lat;
+  $("#coords", init.formframe).text(x + ", " + y)
+  var str = init.formframe.prop('innerHTML');
   init.innerpopup = str;
-  init.post.geometry['x'] = e.latlng.lng;
-  init.post.geometry['y'] = e.latlng.lat;
+  
   var popup = L.popup(popupOptions)
         .setContent(init.innerpopup);
 
