@@ -92,13 +92,21 @@
   }
 
   function markerToLayer (feature, latlng){
-    return L.circleMarker(latlng, {
-    fillColor: '#63B355',
-    radius: 4,
-    color: '#63B355',
-    weight: 1,
-    fillOpacity: 1
-  });
+     var ssoIcon = L.icon({
+    iconUrl: '../ssoform/leaflet-0.7.2/images/sso-icon.png',
+    iconRetinaUrl: '../ssoform/leaflet-0.7.2/images/sso-icon.png',
+    shadowUrl: '../ssoform/leaflet-0.7.2/images/marker-shadow.png' 
+});
+  return L.marker(latlng, {
+      icon: ssoIcon
+    });
+  //   return L.circleMarker(latlng, {
+  //   fillColor: '#63B355',
+  //   radius: 4,
+  //   color: '#63B355',
+  //   weight: 1,
+  //   fillOpacity: 1
+  // });
 }
 
 var popupOptions = { minWidth: 800, maxWidth: 3000, maxHeight: 400,  keepInView: true}
@@ -143,10 +151,6 @@ function getSSOLatLng(feature){
           findMidpoint(feature.geometry.coordinates[0], feature.geometry.coordinates[1])
         }
         else{
-          
-          
-          
-          
           $("#coords", init.formframe).text(feature.geometry.coordinates[0] + ", " + feature.geometry.coordinates[1]) 
         }
    }
@@ -188,21 +192,6 @@ function form(feature, layer){
 
 }
 
-
-
-
-// map.on('click', function(e){ 
-//         // if (feature.geometry.coordinates[0].length > 1){
-//         //   findMidpoint(feature.geometry.coordinates[0], feature.geometry.coordinates[1])
-//         // }
-//         //else{
-//           init.post.geometry['x'] = e.latlng.lng;
-//           init.post.geometry['y'] = e.latlng.lat;
-//           // init.post.geometry['x'] = feature.geometry.coordinates[0]
-//           // init.post.geometry['y'] = feature.geometry.coordinates[1]
-          
-//         // }
-//    });
 
 
 function manholeMarker (feature, latlng){
