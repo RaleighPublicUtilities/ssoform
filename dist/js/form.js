@@ -207,7 +207,7 @@ submitForm: function(){
     success: function (response){
       console.log(response);
      if (response.error){
-      bootbox.alert('<h1 class="text-danger">FAILURE</h1><h3>The Record <strong class="text-danger">WAS NOT ADDED!!!</strong></h3><h4 class="text-warning">Code: '+ response.error.code +', ' + response.error.details[0] + '</h4><p>Please check to make sure all fields are filled out correctly</p><p class="text-muted">If the problem persists please call 919-996-2369</p>');
+      bootbox.alert('<h1 class="text-danger">FAILURE</h1><h3>The Record <strong class="text-danger">WAS NOT ADDED!!!</strong></h3><h4 class="text-warning">Code: '+ response.error.code +', ' + response.error.details[0] + '</h4><p>Please check to make sure all fields are filled out correctly</p><p class="text-muted">If the problem persists please call 919-996-2369</p><a id="try" class="btn btn-warning btn-lg" onclick="location.reload(true);">Try Again</a>');
         $("#updater").remove();
         $("#updater1").remove();
         $("#updater2").remove();

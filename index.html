@@ -13,6 +13,7 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="../ssoform/dist/css/style.css" />
     <link  href="../ssoform/leaflet-0.7.2/leaflet.css" rel="stylesheet"/>
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css' rel='stylesheet' />
     <link href="../ssoform/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="../ssoform/Leaflet.markercluster-master/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="../ssoform/Leaflet.markercluster-master/dist/MarkerCluster.Default.css" />
@@ -21,11 +22,6 @@
     <link rel="icon" type="image/ico" href="../ssoform/dist/img/favicon.ico" />
 
 
-    <!-- Custom styles for this template -->
-   
-
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -55,28 +51,33 @@
           <div id="map" ></div>
     <!-- Main jumbotron for a primary marketing message or call to action -->
     
-
-
-
-    <!--<script src="http://js.arcgis.com/3.9/"></script>-->
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.12.0/jquery.validate.min.js"></script>
     <script src="../ssoform/dist/js/bootstrap.min.js"></script>
     <script src="../ssoform/dist/js/bootbox.min.js"></script>
-    <script src="../ssoform/leaflet-0.7.2/leaflet.js"></script>
+    <!--<script src="../ssoform/leaflet-0.7.2/leaflet.js"></script>-->
     <script src="../ssoform/esri-leaflet-master/dist/esri-leaflet.js" type="text/javascript"></script>
     <script src="../ssoform/Leaflet.markercluster-master/dist/leaflet.markercluster-src.js" type="text/javascript"></script>
     <script src="../ssoform/esri-leaflet-master/dist/extras/clustered-feature-layer.js" type="text/javascript"></script>
+    <script src="../ssoform/dist/js/leaflet-heat.js"></script>
+    <script src="../ssoform/esri-leaflet-master/dist/extras/heatmap-feature-layer.js" type="text/javascript"></script>
     <script src="../ssoform/dist/js/l.control.geosearch.js" type="text/javascript"></script>
     <script src="../ssoform/dist/js/l.geosearch.provider.google.js" type="text/javascript"></script>
     <script src="../ssoform/dist/js/leaflet-hash.js"></script>
     <script src="../ssoform/dist/js/form.js"></script>
+    <script type="text/javascript" src="../ssoform/dist/js/spin.min.js"></script>
+    <script type="text/javascript" src="../ssoform/dist/js/leaflet.spin.js"></script>
+   
     <script type="text/javascript">
 
+
+
     //Main map and Basemaps
+    //var map = L.map('map').setView([35.843768,-78.6450559], 11);
     var map = L.map('map').setView([35.843768,-78.6450559], 11);
     var hash = new L.Hash(map);
-    var streets =  L.esri.basemapLayer("Streets").addTo(map);
+    //var streets =  L.esri.basemapLayer("Streets").addTo(map);
     var Orthos2013 = L.esri.basemapLayer("Imagery");
 
     //Initiate Geocoder
@@ -87,10 +88,27 @@
     }).addTo(map);
 
 
-    function popup (feature, layer) {
-    layer.bindPopup("<h4>Sanitary System Overflow</h4>" + "<h5>Date: <small>" + feature.properties.SSO_DATE + "</small><h5>Address: <small>" + feature.properties.ADDRESS + "</small></h5><h5>Duration: <small>" + feature.properties.DURATION +  "</small></h5><h5>Fish Kill: <small>" + feature.properties.FISH_KILL + "</small></h5><h5>Estimated Gallons: <small>" + feature.properties.EST_GALLON + "</small></h5><h5>Primary Cause: <small>" + feature.properties.PRIMARY_CAUSE + "</small></h5><h5>Secondary Cause: <small>" + feature.properties.SECONDARY_CAUSE + "</small><h5>Rating: <small>" + feature.properties.CAUSE_RATING + "</small><h5>Tributary: <small>" + feature.properties.TRIBUTARY  + "</small></h5><h5>Basin: <small>" + feature.properties.BASIN + "</small>" )
+
+//Convert Date to Human readable
+function conDate(feature){
+var date = new Date(feature);
+            var d = date.getUTCDate();
+            var m = date.getUTCMonth() + 1;
+            var y = date.getUTCFullYear();
+            var formatedDate = m + '/' + d + '/' + y;
+            if (formatedDate == '1/1/1970'){
+              formatedDate = null;
+            }
+            return formatedDate;
+          }
+
+
+function popup (feature, layer) {
+
+    layer.bindPopup("<h4>Sanitary System Overflow</h4>" + "<h5>Date: <small>" + conDate(feature.properties.SSO_DATE) + "</small><h5>Address: <small>" + feature.properties.ADDRESS + "</small></h5><h5>Duration: <small>" + feature.properties.DURATION +  "</small></h5><h5>Fish Kill: <small>" + feature.properties.FISH_KILL + "</small></h5><h5>Estimated Gallons: <small>" + feature.properties.EST_GALLON + "</small></h5><h5>Primary Cause: <small>" + feature.properties.PRIMARY_CAUSE + "</small></h5><h5>Secondary Cause: <small>" + feature.properties.SECONDARY_CAUSE + "</small><h5>Rating: <small>" + feature.properties.CAUSE_RATING + "</small><h5>Tributary: <small>" + feature.properties.TRIBUTARY  + "</small></h5><h5>Basin: <small>" + feature.properties.BASIN + "</small>" )
   }
 
+//Marker for SSO data
   function markerToLayer (feature, latlng){
      var ssoIcon = L.icon({
     iconUrl: '../ssoform/leaflet-0.7.2/images/sso-icon.png',
@@ -118,10 +136,8 @@ function findMidpoint (A, B){
   $("#coords", init.formframe).text(x + ", " + y)
 }
 
-// $('#updater',init.formframe).append('<h4>Manholes/h4><h5>FACILITYID: <small>')   
-// var str = init.formframe.prop('innerHTML');
-// alert(str)
 
+//Creates new SSO with double click
 map.on('dblclick', function(e){ 
  var newSSO = L.circleMarker(e.latlng, {
     fillColor: '#FF0000',
@@ -146,6 +162,8 @@ map.on('dblclick', function(e){
   newSSO.openPopup();
 });
 
+
+//Gets the Lat Lng for the new SSO to be posted
 function getSSOLatLng(feature){
   if (feature.geometry.coordinates[0].length > 1){
           findMidpoint(feature.geometry.coordinates[0], feature.geometry.coordinates[1])
@@ -216,10 +234,26 @@ var style = {
 return style
 }
 
+//Loading indicator
+function loading(layer){
+  layer.on('loading', function(){
+      map.spin(true);
+    });
+    layer.on('load', function(){
+      map.spin(false);
+    })
+
+}
+
     var sso = L.esri.featureLayer('http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/DataCollection/MapServer/0',
                      {onEachFeature: popup,
-                      pointToLayer: markerToLayer 
+                      pointToLayer: markerToLayer
                     });
+    loading(sso);
+   
+    var heat = new L.esri.HeatMapFeatureLayer('http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/DataCollection/MapServer/0', {
+    
+  }).addTo(map);
 
     var gravitymains = L.esri.featureLayer('http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerCollection/MapServer/11',
                      {
@@ -227,26 +261,30 @@ return style
                         style: pipeStyles("#8EF13C")
                      // pointToLayer: markerToLayer1 
                      });
+    loading(gravitymains);
     var forcemains = L.esri.featureLayer('http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerCollection/MapServer/12',
                      {
                         onEachFeature: form,
                         style: pipeStyles('#A60000')
                      // pointToLayer: markerToLayer1 
                      });
+    loading(forcemains);
     var laterals = L.esri.featureLayer('http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerCollection/MapServer/14',
                      {
                         onEachFeature: form,
                         style: pipeStyles('#078600')
                      // pointToLayer: markerToLayer1 
                      });
-
-
-
-   var manholes = L.esri.clusteredFeatureLayer('http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerCollection/MapServer/5', {onEachMarker: form, createMarker: manholeMarker}).addTo(map);
+    loading(laterals);
+    var manholes = L.esri.clusteredFeatureLayer('http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerCollection/MapServer/5', 
+                  {
+                    onEachMarker: form,
+                    createMarker: manholeMarker
+                  });
     
      var baseLayers = {
-    "Streets": streets,
-    "2013 Orthos": Orthos2013
+    'Terrain': L.mapbox.tileLayer('rpud.i607pg2j').addTo(map),
+    'Orthos2013': Orthos2013
     };
 
     var overlays = {
@@ -254,7 +292,9 @@ return style
     "Manholes": manholes,
     "Gravity Mains": gravitymains,
     "Force Mains": forcemains,
-    "Laterals": laterals
+    "Laterals": laterals,
+    "SSO Heat Map": heat
+    //"SSO Heat map": heat
 };
 
 L.control.layers(baseLayers, overlays).addTo(map);   
