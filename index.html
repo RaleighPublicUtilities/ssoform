@@ -46,7 +46,7 @@
         </div><!--/.navbar-collapse -->
       </div>
     </div>
-
+   
         
           <div id="map" ></div>
     <!-- Main jumbotron for a primary marketing message or call to action -->
@@ -76,6 +76,8 @@
     //Main map and Basemaps
     //var map = L.map('map').setView([35.843768,-78.6450559], 11);
     var map = L.map('map').setView([35.843768,-78.6450559], 11);
+                          //map.maxZoom(24);
+                          // map.minZoom(11);
     var hash = new L.Hash(map);
     //var streets =  L.esri.basemapLayer("Streets").addTo(map);
     var Orthos2013 = L.esri.basemapLayer("Imagery");
@@ -216,7 +218,8 @@ function manholeMarker (feature, latlng){
   var manholeIcon = L.icon({
     iconUrl: '../ssoform/leaflet-0.7.2/images/manhole-icon-green.png',
     iconRetinaUrl: '../ssoform/leaflet-0.7.2/images/manhole-icon-green.png',
-    shadowUrl: '../ssoform/leaflet-0.7.2/images/marker-shadow.png' 
+    //shadowUrl: '../ssoform/leaflet-0.7.2/images/marker-shadow.png' ,
+    iconAnchor: [12,17]
 });
   return L.marker(latlng, {
       icon: manholeIcon
@@ -229,7 +232,8 @@ var style = {
     "color": color,
     "weight": 5,
     "opacity": 0.65,
-    "lineCap": "butt"
+    "lineCap": "butt",
+    //"marker-mid": 'url("../ssoform/leaflet-0.7.2/images/arrow-icon.png")'
   }
 return style
 }
@@ -251,9 +255,13 @@ function loading(layer){
                     });
     loading(sso);
    
-    var heat = new L.esri.HeatMapFeatureLayer('http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/DataCollection/MapServer/0', {
+    var heat = new L.esri.HeatMapFeatureLayer('http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/DataCollection/MapServer/0', 
+                  {
+                    radius: 45,
+                    blur: 20
     
-  }).addTo(map);
+  });
+  loading(heat);
 
     var gravitymains = L.esri.featureLayer('http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerCollection/MapServer/11',
                      {
@@ -281,6 +289,7 @@ function loading(layer){
                     onEachMarker: form,
                     createMarker: manholeMarker
                   });
+    loading(manholes);
     
      var baseLayers = {
     'Terrain': L.mapbox.tileLayer('rpud.i607pg2j').addTo(map),
