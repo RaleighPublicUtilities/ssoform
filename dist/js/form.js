@@ -159,8 +159,9 @@ function getAddress(){
 
 
         //Adds the submit button
-        $("#updater2", init.formframe).append('<button id="update" type="submit" class="btn btn-primary btn-lg" onclick="init.submitForm();">Submit</button>')
-        $("#updater", init.formframe).append('<p id="coords"></p>')
+        $("#updater2", init.formframe).append('<button id="update" type="submit" class="btn btn-primary btn-lg" onclick="init.submitForm();">Submit</button><button id="print" class="btn btn-primary btn-lg" onclick="printPopup();">Print</button>');
+        $("#updater", init.formframe).append('<p id="coords"></p>');
+
          var str = init.formframe.prop('innerHTML');
           
           init.innerpopup = str;

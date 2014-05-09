@@ -7,9 +7,9 @@ L.GeoSearch = {};
 L.GeoSearch.Provider = {};
 
 var myIcon = L.icon({
-    iconUrl: '../ssoform/leaflet-0.7.2/images/marker-icon-red.png',
-    iconRetinaUrl: '../ssoform/leaflet-0.7.2/images/marker-icon-red.png',
-    shadowUrl: '../ssoform/leaflet-0.7.2/images/marker-shadow.png'
+    iconUrl: '../ssoform/dist/img/marker-icon-red.png',
+    iconRetinaUrl: '../ssoform/dist/img/marker-icon-red.png',
+    shadowUrl: '../ssoform/dist/img/marker-shadow.png'
 });
 
 L.GeoSearch.Result = function (x, y, label) {
