@@ -241,14 +241,23 @@ L.control.layers(baseLayers, overlays).addTo(map);
 
 
 
-//Button
+//Buttons
+//Open Table
 var ssoTable = L.control({position: 'bottomleft'});
   ssoTable.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend');
       div.innerHTML = '<button type="button" class="btn btn-primary" onclick="mapTable();">SSO Table</button>'
     return div;
   }
-
+ssoTable.addTo(map);
+//Print Map
+var printer = L.control({position: 'bottomright'});
+  printer.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend');
+      div.innerHTML = '<button type="button" class="btn btn-primary" onclick="window.print();">Print</button>'
+    return div;
+  }
+printer.addTo(map);
 function zoomToFeature (x,y){
     map.fitBounds([[y, x]]);
     var selected = L.circle([y, x], 40, {
@@ -267,7 +276,7 @@ function removeTable(){
   map.dragging.enable(); 
 //$(".info table leaflet-control").remove();
 }
-  ssoTable.addTo(map);
+  
 
 function printPopup(){
   window.print();

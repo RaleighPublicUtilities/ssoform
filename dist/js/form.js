@@ -91,7 +91,7 @@ function getAddress(){
             
 
             //Create Post Template
-            if (field != 'OBJECTID' || field != 'ID' || field != 'X_EASTING' || field != 'Y_NORTHING'){
+            if (field != 'OBJECTID' || field != 'ID' || field != 'X_EASTING' || field != 'Y_NORTHING' || field != 'CAUSE_CATEG'){
               init.post.attributes[field] = '#' + field
               init.fieldlengths[field] = fieldlen
             }
@@ -129,7 +129,7 @@ function getAddress(){
               else if (fieldType == "esriFieldTypeDate"){
                 $(column, init.formframe).append(formControls.esriFieldTypeDate)
               }
-              else if (fieldType == "esriFieldTypeString" && field != "LINK"){
+              else if (fieldType == "esriFieldTypeString" && field != "CAUSE_CATEG"){
                 $(column, init.formframe).append(formControls.esriFieldTypeString)
               }
               else if (fieldType == "esriFieldTypeDouble" && field != "X_EASTING" && field != "Y_NORTHING"){
@@ -159,7 +159,7 @@ function getAddress(){
 
 
         //Adds the submit button
-        $("#updater2", init.formframe).append('<button id="update" type="submit" class="btn btn-primary btn-lg" onclick="init.submitForm();">Submit</button><button id="print" class="btn btn-primary btn-lg" onclick="printPopup();">Print</button>');
+        $("#updater2", init.formframe).append('<button id="update" type="submit" class="btn btn-primary btn-lg" onclick="init.submitForm();">Submit</button>');
         $("#updater", init.formframe).append('<p id="coords"></p>');
 
          var str = init.formframe.prop('innerHTML');

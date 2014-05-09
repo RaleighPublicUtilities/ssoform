@@ -56,7 +56,7 @@ var tb = {
 
 
             
-            
+            //Converts the date field from miliseconds to mm/dd/yyyy format
             var date = new Date(ssoDate);
             var d = date.getUTCDate();
             var m = date.getUTCMonth() + 1;
