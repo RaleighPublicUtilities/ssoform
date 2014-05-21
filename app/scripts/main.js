@@ -41,9 +41,9 @@ function popup (feature, layer) {
 //Marker for SSO data
 function markerToLayer (feature, latlng){
   var ssoIcon = L.icon({
-    iconUrl: '/images/sso-icon.png',
-    iconRetinaUrl: '/images/sso-icon.png',
-    shadowUrl: '/images/marker-shadow.png'
+    iconUrl: '../app/images/sso-icon.png',
+    iconRetinaUrl: '../app/images/sso-icon.png',
+    shadowUrl: '../app/images/marker-shadow.png'
   });
   return L.marker(latlng, {
       icon: ssoIcon
@@ -126,8 +126,8 @@ function form(feature, layer){
 //Sets style for manhole markers
 function manholeMarker (feature, latlng){
   var manholeIcon = L.icon({
-    iconUrl: '/images/manhole-icon-green.png',
-    iconRetinaUrl: '/images/manhole-icon-green.png',
+    iconUrl: '../app/images/manhole-icon-green.png',
+    iconRetinaUrl: '../app/images/manhole-icon-green.png',
     iconAnchor: [12,17]
 });
   return L.marker(latlng, {
