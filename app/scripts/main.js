@@ -8,9 +8,9 @@ var Orthos2013 = L.esri.basemapLayer('Imagery');
 
 //Marker for geocoder
 var myIcon = L.icon({
-  iconUrl: '/images/marker-icon-red.png',
-  iconRetinaUrl: '/images/marker-icon-red.png',
-  shadowUrl: '/images/marker-shadow.png'
+  iconUrl: '../images/marker-icon-red.png',
+  iconRetinaUrl: '../images/marker-icon-red.png',
+  shadowUrl: '../images/marker-shadow.png'
 });
 
 //Initiate Geocoder
