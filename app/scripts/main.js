@@ -173,7 +173,7 @@ var heat = new L.esri.HeatMapFeatureLayer('http://gis.raleighnc.gov/arcgis/rest/
 loading(heat);
 
 //Gets and sets Gravity main layer
-var gravitymains = L.esri.featureLayer('http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerCollection/MapServer/11',
+var gravitymains = L.esri.featureLayer('http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerCollection/MapServer/4',
               {
                 onEachFeature: form,
                 style: pipeStyles('#8EF13C')
@@ -181,7 +181,7 @@ var gravitymains = L.esri.featureLayer('http://gis.raleighnc.gov/arcgis/rest/ser
 loading(gravitymains);
 
 //Gets and sets force mains layer
-var forcemains = L.esri.featureLayer('http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerCollection/MapServer/12',
+var forcemains = L.esri.featureLayer('http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerCollection/MapServer/5',
               {
                 onEachFeature: form,
                 style: pipeStyles('#A60000')
@@ -189,7 +189,7 @@ var forcemains = L.esri.featureLayer('http://gis.raleighnc.gov/arcgis/rest/servi
 loading(forcemains);
 
 //Gets and sets laterals layer
-var laterals = L.esri.featureLayer('http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerCollection/MapServer/14',
+var laterals = L.esri.featureLayer('http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerCollection/MapServer/13',
               {
                 onEachFeature: form,
                 style: pipeStyles('#078600')
@@ -197,7 +197,7 @@ var laterals = L.esri.featureLayer('http://gis.raleighnc.gov/arcgis/rest/service
 loading(laterals);
 
 //Gets and sets manhole layer
-var manholes = L.esri.clusteredFeatureLayer('http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerCollection/MapServer/5',
+var manholes = L.esri.clusteredFeatureLayer('http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerCollection/MapServer/6',
               {
                 onEachMarker: form,
                 createMarker: manholeMarker
