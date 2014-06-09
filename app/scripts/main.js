@@ -203,11 +203,16 @@ var manholes = L.esri.clusteredFeatureLayer('http://gis.raleighnc.gov/arcgis/res
                 createMarker: manholeMarker
               });
 loading(manholes);
- 
+
+//Open Street maps baselayer
+var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+        detectRetina: true}).addTo(map);
 
 //Creates Basemap object for layer control   
 var baseLayers = {
-    'Terrain': L.mapbox.tileLayer('rpud.i607pg2j').addTo(map),
+    'Basemap': osm,
+    //'Terrain': L.mapbox.tileLayer('rpud.i607pg2j').addTo(map),
     'Orthos2013': Orthos2013
 };
 
