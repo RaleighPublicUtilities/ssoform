@@ -5,7 +5,7 @@
 var map = L.map('map').setView([35.843768,-78.6450559], 11);
 var hash = new L.Hash(map);
 var Orthos2013 = L.esri.basemapLayer('Imagery');
-
+var esriTopo = L.esri.basemapLayer('Topographic').addTo(map);
 //Marker for geocoder
 var myIcon = L.icon({
   iconUrl: '../app/images/marker-icon-red.png',
@@ -205,14 +205,15 @@ var manholes = L.esri.clusteredFeatureLayer('http://gis.raleighnc.gov/arcgis/res
 loading(manholes);
 
 //Open Street maps baselayer
-var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-        detectRetina: true}).addTo(map);
+// var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+//         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+//         detectRetina: true}).addTo(map);
 
 //Creates Basemap object for layer control   
 var baseLayers = {
-    'Basemap': osm,
+    //'Basemap': osm,
     //'Terrain': L.mapbox.tileLayer('rpud.i607pg2j').addTo(map),
+    'Topo': esriTopo,
     'Orthos2013': Orthos2013
 };
 
