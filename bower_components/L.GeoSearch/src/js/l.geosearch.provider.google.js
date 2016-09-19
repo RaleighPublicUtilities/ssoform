@@ -20,7 +20,9 @@ L.GeoSearch.Provider.Google = L.Class.extend({
     },
 
     loadMapsApi: function () {
-        var url = "https://maps.googleapis.com/maps/api/js?v=3&callback=onLoadGoogleApiCallback&sensor=false";
+        // var url = "https://maps.googleapis.com/maps/api/js?v=3&callback=onLoadGoogleApiCallback&sensor=false";
+        var url = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBymsmYGd_3tfSXwo0ny-kq33mhGxiRGRA&callback=onLoadGoogleApiCallback&sensor=false"
+        // PublicUtility Google API key: AIzaSyBymsmYGd_3tfSXwo0ny-kq33mhGxiRGRA
         var script = document.createElement('script');
         script.id = 'load_google_api';
         script.type = "text/javascript";
