@@ -5,7 +5,7 @@
 var map = L.map('map').setView([35.843768,-78.6450559], 11);
 var hash = new L.Hash(map);
 var Orthos2013 = L.esri.basemapLayer('Imagery');
-var esriTopo = L.esri.basemapLayer('Topographic').addTo(map);
+// var esriTopo = L.esri.basemapLayer('Topographic').addTo(map);
 //Marker for geocoder
 var myIcon = L.icon({
   iconUrl: '../app/images/marker-icon-red.png',
@@ -79,7 +79,7 @@ map.on('dblclick', function(e){
   var popup = L.popup(popupOptions)
         .setContent(init.innerpopup);
 
-  //Binds popup to layer      
+  //Binds popup to layer
   newSSO.bindPopup(popup);
   //popup.update();
   newSSO.openPopup();
@@ -107,7 +107,7 @@ function form(feature, layer){
   $('#SSO_DATE', init.formframe).attr('value', getCurrentDate());
   $('#FACILITYID', init.formframe).attr('value', feature.properties.FACILITYID);
   $('#CITY', init.formframe).attr('value', feature.properties.JURISDICTION);
-  
+
   getSSOLatLng(feature);
   //Creates updated html string for form
   var str = init.formframe.prop('innerHTML');
@@ -115,10 +115,10 @@ function form(feature, layer){
   //Creates the popup
   var popup = L.popup(popupOptions)
         .setContent(init.innerpopup);
-  //Sends the location of the popup to post object to process it for submit     
+  //Sends the location of the popup to post object to process it for submit
   init.post.geometry.x = $('#coords').text();
- 
-  //Binds popup to layer      
+
+  //Binds popup to layer
   layer.bindPopup(popup);
   //popup.update();
 }
@@ -205,15 +205,15 @@ var manholes = L.esri.clusteredFeatureLayer('http://gis.raleighnc.gov/arcgis/res
 loading(manholes);
 
 //Open Street maps baselayer
-// var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-//         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-//         detectRetina: true}).addTo(map);
+var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+        detectRetina: true}).addTo(map);
 
-//Creates Basemap object for layer control   
+//Creates Basemap object for layer control
 var baseLayers = {
-    //'Basemap': osm,
+    'Basemap': osm,
     //'Terrain': L.mapbox.tileLayer('rpud.i607pg2j').addTo(map),
-    'Topo': esriTopo,
+    // 'Topo': esriTopo,
     'Orthos2013': Orthos2013
 };
 
@@ -265,9 +265,8 @@ function removeTable(){
   tableborder.remove();
   map.dragging.enable();
 }
-  
+
 //Prints map, still very basic could be greatly improved
 function printPopup(){
   window.print();
 }
-
